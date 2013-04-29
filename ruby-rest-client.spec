@@ -14,6 +14,7 @@ Source0:	http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
 URL:		http://github.com/archiloque/rest-client
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	sed >= 4.0
 %if %{with tests}
 BuildRequires:	ruby-mime-types >= 1.16
 BuildRequires:	ruby-netrc
@@ -31,6 +32,7 @@ microframework style of specifying actions: get, put, post, delete.
 
 %prep
 %setup -q -n %{gem_name}-%{version}
+%{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
 
 %build
 %if %{with tests}
