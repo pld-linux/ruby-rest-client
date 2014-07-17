@@ -6,7 +6,7 @@
 Summary:	Simple REST client for Ruby
 Name:		ruby-%{gem_name}
 Version:	1.6.7
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 Source0:	http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
