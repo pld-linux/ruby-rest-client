@@ -2,16 +2,16 @@
 # Conditional build:
 %bcond_with	tests		# build without tests
 
-%define gem_name rest-client
+%define pkgname rest-client
 Summary:	Simple REST client for Ruby
-Name:		ruby-%{gem_name}
-Version:	1.6.7
-Release:	2
+Name:		ruby-%{pkgname}
+Version:	1.7.2
+Release:	1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
-# Source0-md5:	1f2d6b3b6ceb88e3ee2b327f5e508c22
-URL:		http://github.com/archiloque/rest-client
+Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
+# Source0-md5:	26e91d611a1d66007b6158f75d2cb7db
+URL:		https://github.com/rest-client/rest-client
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
@@ -31,10 +31,13 @@ A simple Simple HTTP and REST client for Ruby, inspired by the Sinatra
 microframework style of specifying actions: get, put, post, delete.
 
 %prep
-%setup -q -n %{gem_name}-%{version}
+%setup -q -n %{pkgname}-%{version}
 %{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
 
 %build
+# write .gemspec
+%__gem_helper spec
+
 %if %{with tests}
 # TODO: According to comment in %%{PATCH0}, at least one test does not passes on
 # R1.9.3. I gon't go to investigate further ATM.
@@ -43,9 +46,10 @@ rspec spec | grep -e "188 examples, [34] failures"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir}}
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir},%{_bindir}}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -58,3 +62,4 @@ rm -rf $RPM_BUILD_ROOT
 %{ruby_vendorlibdir}/rest_client.rb
 %{ruby_vendorlibdir}/restclient.rb
 %{ruby_vendorlibdir}/restclient
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
