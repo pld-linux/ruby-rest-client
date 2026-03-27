@@ -1,0 +1,8 @@
+--- a/bin/restclient
++++ b/bin/restclient
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env ruby
++#!/usr/bin/ruby
+
+ $LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
+

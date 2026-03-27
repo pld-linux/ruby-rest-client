@@ -5,24 +5,25 @@
 %define pkgname rest-client
 Summary:	Simple REST client for Ruby
 Name:		ruby-%{pkgname}
-Version:	1.7.2
-Release:	3
+Version:	2.1.0
+Release:	1
 License:	MIT
 Group:		Development/Languages
-Source0:	http://gems.rubyforge.org/gems/%{pkgname}-%{version}.gem
-# Source0-md5:	26e91d611a1d66007b6158f75d2cb7db
+Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
+# Source0-md5:	75e3de74cdcd29e6c1179090723a0258
 URL:		https://github.com/rest-client/rest-client
+Patch0:		shebang.patch
 BuildRequires:	rpm-rubyprov
-BuildRequires:	rpmbuild(macros) >= 1.656
-BuildRequires:	sed >= 4.0
+BuildRequires:	rpmbuild(macros) >= 1.665
 %if %{with tests}
 BuildRequires:	ruby-mime-types >= 1.16
-BuildRequires:	ruby-netrc
-BuildRequires:	ruby-rspec
-BuildRequires:	ruby-webmock >= 0.9.1
+BuildRequires:	ruby-rspec >= 3.0
+BuildRequires:	ruby-webmock >= 2.0
 %endif
+Requires:	ruby-http-accept >= 1.7.0
+Requires:	ruby-http-cookie >= 1.0.2
 Requires:	ruby-mime-types >= 1.16
-Requires:	ruby-netrc
+Requires:	ruby-netrc >= 0.8
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -32,7 +33,7 @@ microframework style of specifying actions: get, put, post, delete.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
-%{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
+%patch -P0 -p1
 
 %build
 # write .gemspec
@@ -56,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.rdoc history.md
+%doc AUTHORS README.md history.md LICENSE
 %attr(755,root,root) %{_bindir}/restclient
 %{ruby_vendorlibdir}/rest-client.rb
 %{ruby_vendorlibdir}/rest_client.rb
