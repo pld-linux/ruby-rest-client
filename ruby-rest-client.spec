@@ -6,7 +6,7 @@
 Summary:	Simple REST client for Ruby
 Name:		ruby-%{pkgname}
 Version:	2.1.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
